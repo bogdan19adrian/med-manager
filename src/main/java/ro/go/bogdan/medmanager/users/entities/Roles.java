@@ -10,8 +10,6 @@ import javax.persistence.*;
 @ToString
 @Builder
 @EqualsAndHashCode
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Roles {
@@ -31,5 +29,19 @@ public class Roles {
     @Column(name = "role_code")
     private String roleCode;
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRoleCode() {
+        return roleCode;
+    }
+
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
 }

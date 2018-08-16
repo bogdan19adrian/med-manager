@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.go.bogdan.medmanager.users.entities.User;
-import ro.go.bogdan.medmanager.users.services.UserService;
+import ro.go.bogdan.medmanager.users.repository.UserRepository;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @GetMapping(value = "/findAll")
     private ResponseEntity<List<User>> findAllUsers() {
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 }

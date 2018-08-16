@@ -5,12 +5,21 @@ import org.springframework.stereotype.Repository;
 import ro.go.bogdan.medmanager.users.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findAll();
+    Optional<User> findByEmail(String email);
 
-    User findByUsername(String username);
+    Optional<User> findByUsernameOrEmail(String username, String email);
+
+    List<User> findByIdIn(List<Long> userIds);
+
+    Optional<User> findByUsername(String username);
+
+    Boolean existsByUsername(String username);
+
+    Boolean existsByEmail(String email);
 
 }
