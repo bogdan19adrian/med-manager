@@ -1,9 +1,10 @@
-package ro.go.bogdan.medmanager.users;
+package ro.go.bogdan.medmanager.users.entities;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -45,4 +46,13 @@ public class User {
 
     @Column(name = "active")
     private Boolean active;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "rel_user_role", joinColumns
+            = @JoinColumn(name = "user_id",
+            referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",
+                    referencedColumnName = "role_id"))
+    private List<Roles> roles;
+
 }
