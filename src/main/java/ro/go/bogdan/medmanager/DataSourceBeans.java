@@ -32,6 +32,5 @@ public class DataSourceBeans {
                 .driverClassName(driver)
                 .build();
 
-
     }
 }
