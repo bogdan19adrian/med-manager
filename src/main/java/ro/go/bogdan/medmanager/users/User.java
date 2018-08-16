@@ -1,6 +1,7 @@
 package ro.go.bogdan.medmanager.users;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -16,7 +17,14 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(
+            strategy= GenerationType.AUTO,
+            generator="native"
+    )
+    @GenericGenerator(
+            name = "native",
+            strategy = "native"
+    )
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
