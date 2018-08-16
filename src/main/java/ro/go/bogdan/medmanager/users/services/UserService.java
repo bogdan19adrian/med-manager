@@ -1,4 +1,4 @@
-package ro.go.bogdan.medmanager.users.service;
+package ro.go.bogdan.medmanager.users.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

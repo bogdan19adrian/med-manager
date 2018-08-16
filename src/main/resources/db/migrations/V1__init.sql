@@ -9,3 +9,4 @@ CREATE TABLE `med_manager`.`users` (
   `password` VARCHAR(45) NOT NULL,
   `active` BOOL NOT NULL,
   PRIMARY KEY (`id`));
+
