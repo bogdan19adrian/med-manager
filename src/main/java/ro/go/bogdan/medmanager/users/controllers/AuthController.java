@@ -9,16 +9,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.go.bogdan.medmanager.payload.ApiResponse;
 import ro.go.bogdan.medmanager.payload.JwtAuthenticationResponse;
 import ro.go.bogdan.medmanager.payload.LoginRequest;
 import ro.go.bogdan.medmanager.payload.SignUpRequest;
 import ro.go.bogdan.medmanager.security.JwtTokenProvider;
+import ro.go.bogdan.medmanager.users.entities.Roles;
 import ro.go.bogdan.medmanager.users.entities.User;
 import ro.go.bogdan.medmanager.users.repository.RoleRepository;
 import ro.go.bogdan.medmanager.users.repository.UserRepository;
@@ -74,7 +72,7 @@ public class AuthController {
         }
 
         // Creating user's account
-        User user = new User(signUpRequest.getFirstName(), signUpRequest.getLastName(), signUpRequest.getUsername(),
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getFirstName(), signUpRequest.getLastName(),
                 signUpRequest.getEmail(), signUpRequest.getPassword(), true);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -91,5 +89,10 @@ public class AuthController {
                 .buildAndExpand(result.getUsername()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @GetMapping("getRoles")
+    public ResponseEntity<Roles> getRoles() {
+        return new ResponseEntity(roleRepository.findAll(), HttpStatus.OK);
     }
 }
