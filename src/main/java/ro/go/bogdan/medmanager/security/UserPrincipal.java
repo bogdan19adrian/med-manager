@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ro.go.bogdan.medmanager.users.entities.Permissions;
 import ro.go.bogdan.medmanager.users.entities.Roles;
 import ro.go.bogdan.medmanager.users.entities.User;
 
@@ -40,18 +39,6 @@ public class UserPrincipal implements UserDetails {
         this.authorities = authorities;
     }
 
-//    private static List<GrantedAuthority> getAuthorities(
-//            Collection<Roles> roles) {
-//        List<GrantedAuthority> authorities = new ArrayList<>();
-//        for (Roles role : roles) {
-//            authorities.add(new SimpleGrantedAuthority(role.getRoleCode()));
-//            role.getPrivileges().stream()
-//                    .map(p -> new SimpleGrantedAuthority(p.getName()))
-//                    .forEach(authorities::add);
-//        }
-//        return authorities;
-//    }
-
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = getAuthorities(user.getRoles());
         return new UserPrincipal(
@@ -65,32 +52,36 @@ public class UserPrincipal implements UserDetails {
         );
     }
 
-    private static List<GrantedAuthority> getAuthorities(
-            Collection<Roles> roles) {
-
-        return (List<GrantedAuthority>) getGrantedAuthorities(getPrivileges(roles));
-    }
-
-    private static List<String> getPrivileges(Collection<Roles> roles) {
-
-        List<String> privileges = new ArrayList<>();
-        List<Permissions> collection = new ArrayList<>();
-        for (Roles role : roles) {
-            collection.addAll(role.getPrivileges());
-        }
-        for (Permissions item : collection) {
-            privileges.add(item.getName());
-        }
-        return privileges;
-    }
-
-    private static List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
+    private static List<GrantedAuthority> getAuthorities(Collection<Roles> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String privilege : privileges) {
-            authorities.add(new SimpleGrantedAuthority(privilege));
-        }
+        roles.forEach((role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getRoleCode()));
+        }));
+
         return authorities;
     }
+
+
+//    private static List<String> getPrivileges(Collection<Roles> roles) {
+//
+//        List<String> privileges = new ArrayList<>();
+//        List<Permissions> collection = new ArrayList<>();
+//        for (Roles role : roles) {
+//            collection.addAll(role.getPrivileges());
+//        }
+//        for (Permissions item : collection) {
+//            privileges.add(item.getName());
+//        }
+//        return privileges;
+//    }
+//
+//    private static List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        for (String privilege : privileges) {
+//            authorities.add(new SimpleGrantedAuthority(privilege));
+//        }
+//        return authorities;
+//    }
 
     public Long getId() {
         return id;
