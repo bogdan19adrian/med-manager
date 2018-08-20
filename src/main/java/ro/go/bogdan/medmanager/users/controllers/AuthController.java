@@ -10,7 +10,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.go.bogdan.medmanager.payload.ApiResponse;
 import ro.go.bogdan.medmanager.payload.JwtAuthenticationResponse;
@@ -56,6 +59,7 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
@@ -73,8 +77,13 @@ public class AuthController {
         }
 
         // Creating user's account
-        User user = new User(signUpRequest.getUsername(), signUpRequest.getFirstName(), signUpRequest.getLastName(),
-                signUpRequest.getEmail(), signUpRequest.getPassword(), true);
+        User user = new User(
+                signUpRequest.getUsername(),
+                signUpRequest.getFirstName(),
+                signUpRequest.getLastName(),
+                signUpRequest.getEmail(),
+                signUpRequest.getPassword(),
+                true);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 

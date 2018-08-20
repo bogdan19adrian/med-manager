@@ -1,6 +1,7 @@
 package ro.go.bogdan.medmanager.payload;
 
 public class UserIdentityAvailability {
+
     private Boolean available;
 
     public UserIdentityAvailability(Boolean available) {
