@@ -1,6 +1,6 @@
-CREATE DATABASE IF not exists med_manager;
+CREATE SCHEMA  med_manager;
 
-CREATE TABLE `med_manager`.`users` (
+CREATE TABLE users (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,

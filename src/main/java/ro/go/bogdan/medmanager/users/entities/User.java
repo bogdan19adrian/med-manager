@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -48,7 +49,7 @@ public class User {
             referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",
                     referencedColumnName = "role_id"))
-    private List<Roles> roles;
+    private Set<Roles> roles;
 
     public User() {
     }
@@ -62,7 +63,7 @@ public class User {
         this.active = active;
     }
 
-    public User(String username, String firstName, String lastName, String email, String password, Boolean active, List<Roles> roles) {
+    public User(String username, String firstName, String lastName, String email, String password, Boolean active, Set<Roles> roles) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -128,11 +129,11 @@ public class User {
         this.active = active;
     }
 
-    public List<Roles> getRoles() {
+    public Set<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Roles> roles) {
+    public void setRoles(Set<Roles> roles) {
         this.roles = roles;
     }
 }

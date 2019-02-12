@@ -10,11 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ro.go.bogdan.medmanager.exception.AppException;
 import ro.go.bogdan.medmanager.payload.ApiResponse;
 import ro.go.bogdan.medmanager.payload.JwtAuthenticationResponse;
 import ro.go.bogdan.medmanager.payload.LoginRequest;
@@ -28,6 +26,8 @@ import ro.go.bogdan.medmanager.users.repository.UserRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -87,11 +87,12 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-//        Roles userRole = roleRepository.findByName(RoleName.ROLE_USER)
-//                .orElseThrow(() -> new AppException("User Role not set."));
-//
-//        user.setRoles(Collections.singleton(userRole));
-//
+        Roles userRole = roleRepository.findById(signUpRequest.getRoleId())
+                .orElseThrow(() -> new AppException("User Role not set."));
+        Set<Roles> s = new HashSet<>();
+        s.add(userRole);
+        user.setRoles(s);
+
         User result = userRepository.save(user);
 //
         URI location = ServletUriComponentsBuilder
